@@ -10,4 +10,5 @@
     <string name="preco_kwh">Preço Kwh</string>
     <string name="km_percorrido">Km Percorrido</string>
     <string name="btn_tx_calcular">Calcular</string>
+    <string name="titulo_calcular_autonomia">Calcular Autonomia</string>
 </resources>
