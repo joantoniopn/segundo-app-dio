@@ -27,6 +27,22 @@ object CarFactory {
             potencia = "175cv",
             recarga = "32 min",
             urlFoto = "www.google.com.br"
+        ),
+        Carro (
+            id = 4,
+            preco = "R$200.000,00",
+            bateria = "250 kWh",
+            potencia = "150cv",
+            recarga = "42 min",
+            urlFoto = "www.google.com.br"
+        ),
+        Carro (
+            id = 5,
+            preco = "R$150.000,00",
+            bateria = "100 kWh",
+            potencia = "150cv",
+            recarga = "21 min",
+            urlFoto = "www.google.com.br"
         )
     )
 }
