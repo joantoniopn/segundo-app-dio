@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import br.com.codigoconstante.teste.R
 import br.com.codigoconstante.teste.data.CarsApi
+import br.com.codigoconstante.teste.data.local.CarRepository
 import br.com.codigoconstante.teste.domain.Carro
 import br.com.codigoconstante.teste.ui.adapter.CarAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -35,7 +36,6 @@ class CarFragment : Fragment() {
     lateinit var textoSemInternet: TextView
     lateinit var progress: ProgressBar
     lateinit var carsApi: CarsApi
-    var listaCarros: ArrayList<Carro> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,7 +83,6 @@ class CarFragment : Fragment() {
             override fun onFailure(call: Call<List<Carro>>, t: Throwable) {
                 Toast.makeText(context, R.string.response_error, Toast.LENGTH_LONG).show()
             }
-
         })
     }
 
@@ -95,17 +94,20 @@ class CarFragment : Fragment() {
             imagemSemInternet = findViewById(R.id.iv_empty_state)
             textoSemInternet = findViewById(R.id.tv_no_internet)
         }
-
     }
 
     private fun setupList(lista: List<Carro>) {
+        val carroAdapter = CarAdapter(lista)
         progress.visibility = View.GONE
         imagemSemInternet.visibility = View.GONE
         textoSemInternet.visibility = View.GONE
 
         listaCarrosView.apply {
             visibility = View.VISIBLE
-            adapter = CarAdapter(lista)
+            adapter = carroAdapter
+        }
+        carroAdapter.carItemLister = { carro ->
+            val carr = CarRepository(requireContext()).saveIfNotExists(carro)
         }
     }
 

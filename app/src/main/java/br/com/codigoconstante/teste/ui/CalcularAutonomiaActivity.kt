@@ -1,5 +1,6 @@
 package br.com.codigoconstante.teste.ui
 
+import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
 import android.view.View
@@ -24,6 +25,12 @@ class CalcularAutonomiaActivity : AppCompatActivity() {
         setContentView(R.layout.activity_calcular_autonomia)
         setupView()
         setupListeners()
+        setupCachePref()
+    }
+
+    private fun setupCachePref() {
+        val valorCalculado = getSharedPref()
+        totalCalculado.text = valorCalculado.toString()
     }
 
     private fun setupView() {
@@ -49,6 +56,21 @@ class CalcularAutonomiaActivity : AppCompatActivity() {
     }
 
     private fun calcular(preco: Float, km: Float): Float {
-        return preco / km
+        val resultado = preco / km
+        saveSharedPref(resultado)
+        return resultado
+    }
+
+    private fun saveSharedPref(resultado : Float) {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putFloat(getString(R.string.saved_calc), resultado)
+            apply()
+        }
+    }
+
+    private fun getSharedPref(): Float {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        return sharedPref.getFloat(getString(R.string.saved_calc), 0.0f)
     }
 }
